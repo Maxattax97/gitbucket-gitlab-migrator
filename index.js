@@ -76,10 +76,10 @@ if(!process.env.GITLAB_URL)
 		return str;
 	};
 
-	for(let i = 0; i < 1; i++)
+	for(let i = 0; i < gitbucket_issues.length; i++)
 	{
 		// Good test: 635, 427, 80, 479, 17
-		const current_issue = gitbucket_issues[17];
+		const current_issue = gitbucket_issues[i];
 		try
 		{
 			//Logger.debug("Selected issue: %o", current_issue);
@@ -104,7 +104,7 @@ if(!process.env.GITLAB_URL)
 				Project: "bats/meta",
 				Title: `${current_issue.title} (GB #${current_issue.number})`,
 				Description: fix_gitbucket_links(current_issue.body), // The first comment is the description.
-				Assignee: current_issue.assignee.login,
+				Assignee: current_issue.assignee ? current_issue.assignee.login : undefined,
 				CreatedTime: DateTime.fromISO(current_issue.created_at),
 				Labels: labels,
 				//Milestone: "production",
