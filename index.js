@@ -35,33 +35,33 @@ if(!process.env.GITLAB_URL)
 
 	const fix_gitbucket_links = function(str)
 	{
-		const url = "https://gitbucket.portal.batswireless.com/bats/meta/issues";
-		const replacements = {}; // "#1": `${url}/1` };
-		const regex = /#([0-9]+)/gm;
-		let m;
+		//const url = "https://gitbucket.portal.batswireless.com/bats/meta/issues";
+		//const replacements = {}; // "#1": `${url}/1` };
+		//const regex = /#([0-9]+)/gm;
+		//let m;
 
-		while((m = regex.exec(str)) !== null)
-		{
-			// This is necessary to avoid infinite loops with zero-width matches
-			if(m.index === regex.lastIndex)
-			{
-				regex.lastIndex++;
-			}
+		//while((m = regex.exec(str)) !== null)
+		//{
+		//// This is necessary to avoid infinite loops with zero-width matches
+		//if(m.index === regex.lastIndex)
+		//{
+		//regex.lastIndex++;
+		//}
 
-			// The result can be accessed through the `m`-variable.
-			m.forEach((match, groupIndex) =>
-			{
-				if(1 === groupIndex)
-				{
-					replacements[`#${match}`] = `${url}/${match}`;
-				}
-			});
-		}
+		//// The result can be accessed through the `m`-variable.
+		//m.forEach((match, groupIndex) =>
+		//{
+		//if(1 === groupIndex)
+		//{
+		//replacements[`#${match}`] = `${url}/${match}`;
+		//}
+		//});
+		//}
 
-		_.each(replacements, (url, tag) =>
-		{
-			str = str.replaceAll(tag, `[${tag}](${url})`);
-		});
+		//_.each(replacements, (url, tag) =>
+		//{
+		//str = str.replaceAll(tag, `[${tag}](${url})`);
+		//});
 
 		const url_replacements = {
 			"git.portal.batswireless.com": "gitbucket.portal.batswireless.com",
@@ -102,7 +102,8 @@ if(!process.env.GITLAB_URL)
 			const created_issue = await migrator.CreateGitlabIssue({
 				As: current_issue.user.login,
 				Project: "bats/meta",
-				Title: `${current_issue.title} (GB #${current_issue.number})`,
+				//Title: `${current_issue.title} (GB #${current_issue.number})`,
+				Title: current_issue.title,
 				Description: fix_gitbucket_links(current_issue.body), // The first comment is the description.
 				Assignee: current_issue.assignee ? current_issue.assignee.login : undefined,
 				CreatedTime: DateTime.fromISO(current_issue.created_at),
